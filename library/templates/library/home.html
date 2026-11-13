@@ -1,0 +1,23 @@
+{% extends 'library/base.html' %}
+{% block title %}Головна — Бібліотека{% endblock %}
+{% block content %}
+<h1>Ласкаво просимо до нашої електронної бібліотеки!</h1>
+<p>Тут ви можете переглянути каталог книг, знайти улюблених авторів та залишити заявку на бронювання.</p>
+
+<hr style="margin: 30px 0; border: 0; border-top: 1px solid #ddd;">
+
+<h2>Останні надходження</h2>
+<ul>
+    {% for book in latest_books %}
+        <li style="margin-bottom: 10px;">
+            <a href="{% url 'library:book_detail' book.pk %}"><strong>{{ book.title }}</strong></a>
+            — Автор: {{ book.author.full_name }} ({{ book.year }})
+        </li>
+    {% empty %}
+        <p>Поки що немає доданих книг.</p>
+    {% endfor %}
+</ul>
+<p style="margin-top: 20px;">
+    <a href="{% url 'library:book_list' %}" class="btn-primary">Переглянути весь каталог</a>
+</p>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'library/base.html' %}
+{% block title %}Список заявок{% endblock %}
+{% block content %}
+<h1>Заявки на бронювання книг</h1>
+<table border="1" cellpadding="8" style="border-collapse: collapse; width: 100%;">
+    <tr>
+        <th>ID</th>
+        <th>Книга</th>
+        <th>Читач</th>
+        <th>Телефон</th>
+        <th>Дата заявки</th>
+    </tr>
+    {% for req in requests %}
+    <tr>
+        <td>{{ req.pk }}</td>
+        <td><a href="{% url 'library:book_detail' req.book.pk %}">{{ req.book.title }}</a></td>
+        <td>{{ req.reader_name }}</td>
+        <td>{{ req.phone }}</td>
+        <td>{{ req.created_at|date:"d.m.Y H:i" }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">Немає жодної заявки.</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

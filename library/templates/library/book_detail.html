@@ -1,0 +1,30 @@
+{% extends 'library/base.html' %}
+{% block title %}{{ book.title }}{% endblock %}
+{% block content %}
+<h1>{{ book.title }}</h1>
+<p><strong>Автор:</strong> <a href="{% url 'library:author_detail' book.author.pk %}">{{ book.author.full_name }}</a></p>
+<p><strong>Жанр:</strong> {{ book.genre.name }}</p>
+<p><strong>Рік видання:</strong> {{ book.year }}</p>
+<p><strong>Кількість сторінок:</strong> {{ book.pages }}</p>
+<p><strong>Опис:</strong> {{ book.description|default:"Опис відсутній." }}</p>
+<p><strong>Статус:</strong>
+    {% if book.is_available %}
+        <span style="color: green;">Доступна для замовлення</span>
+    {% else %}
+        <span style="color: red;">На руках / Видана</span>
+    {% endif %}
+</p>
+
+<div style="margin-top: 25px;">
+    {% if book.is_available %}
+        <a href="{% url 'library:request_create' book.pk %}" class="btn-success" style="margin-right: 10px;">Забронювати книгу</a>
+    {% endif %}
+
+    {% if user.is_staff %}
+        <a href="{% url 'library:book_update' book.pk %}" class="btn-warning" style="margin-right: 10px;">Редагувати</a>
+        <a href="{% url 'library:book_delete' book.pk %}" class="btn-danger">Видалити</a>
+    {% endif %}
+</div>
+
+<p style="margin-top: 30px;"><a href="{% url 'library:book_list' %}">&larr; Повернутися до каталогу</a></p>
+{% endblock %}

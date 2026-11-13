@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Бібліотека{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header>
+    <div>
+        <a href="{% url 'library:home' %}" style="font-size: 20px; font-weight: bold; color: #fff; text-decoration: none;">📚 Бібліотека</a>
+    </div>
+    <nav>
+        <a href="{% url 'library:home' %}">Головна</a>
+        <a href="{% url 'library:book_list' %}">Книги</a>
+        <a href="{% url 'library:author_list' %}">Автори</a>
+        {% if user.is_authenticated %}
+            {% if user.is_staff %}
+                <a href="{% url 'library:book_create' %}" style="color: #ffc107;">+ Додати книгу</a>
+                <a href="{% url 'library:request_list' %}" style="color: #ffc107;">Заявки</a>
+            {% endif %}
+            <span style="margin-left: 20px;">Вітаємо, <strong>{{ user.username }}</strong>!</span>
+            <form action="{% url 'accounts:logout' %}" method="post" style="display: inline; margin-left: 10px;">
+                {% csrf_token %}
+                <button type="submit" style="background: none; border: none; color: #ff6b6b; cursor: pointer; font-size: 16px;">Вийти</button>
+            </form>
+        {% else %}
+            <a href="{% url 'accounts:login' %}">Увійти</a>
+            <a href="{% url 'accounts:register' %}">Реєстрація</a>
+        {% endif %}
+    </nav>
+</header>
+
+<div class="container">
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+</div>
+
+<footer>
+    <p>&copy; 2026 Система управління бібліотекою. Усі права захищено.</p>
+</footer>
+
+</body>
+</html>

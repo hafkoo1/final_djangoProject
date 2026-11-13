@@ -1,0 +1,11 @@
+{% extends 'library/base.html' %}
+{% block title %}{{ action }} книгу{% endblock %}
+{% block content %}
+<h1>{{ action }} книгу</h1>
+<form method="post" style="margin-top: 20px;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn-primary">Зберегти</button>
+</form>
+<p style="margin-top: 15px;"><a href="{% url 'library:book_list' %}">Скасувати</a></p>
+{% endblock %}

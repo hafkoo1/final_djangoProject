@@ -1,0 +1,21 @@
+{% extends 'library/base.html' %}
+{% block title %}{{ author.full_name }}{% endblock %}
+{% block content %}
+<h1>{{ author.full_name }}</h1>
+<p><strong>Країна:</strong> {{ author.country }}</p>
+<p><strong>Рік народження:</strong> {{ author.birth_year|default:"не вказано" }}</p>
+
+<h2>Книги автора:</h2>
+<ul>
+    {% for book in books %}
+        <li>
+            <a href="{% url 'library:book_detail' book.pk %}">{{ book.title }}</a>
+            ({{ book.year }}) — Жанр: {{ book.genre.name }}
+        </li>
+    {% empty %}
+        <p>У цього автора поки немає книг у базі.</p>
+    {% endfor %}
+</ul>
+
+<p><a href="{% url 'library:author_list' %}">&larr; До списку авторів</a></p>
+{% endblock %}
